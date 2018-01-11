@@ -1,0 +1,5 @@
+scenarios/TestSetup.class
+scenarios/AppiumTest.class
+pages/LoginPage.class
+scenarios/TestSetup$Contexts.class
+pages/BasePage.class
