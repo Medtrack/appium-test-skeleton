@@ -42,5 +42,5 @@ mkdir <project root>/src/test/pages <project root>/src/test/scenarios
 El test se puede lanzar desde línea de comandos con:
 
 ```
-mvn clean install
+mvn test
 ```

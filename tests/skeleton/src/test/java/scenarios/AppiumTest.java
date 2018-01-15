@@ -9,7 +9,7 @@ public class AppiumTest extends TestSetup {
 
     @BeforeClass
     public void setUp() throws Exception {
-        //prepareAndroidForAppium();
+        prepareAndroidForAppium();
         setUpContexts();
     }
 
@@ -19,14 +19,19 @@ public class AppiumTest extends TestSetup {
         driverQuit();
     }
 
-    @Test(priority=1, description="Launches the test 1")
+    @Test(priority=1, description="Counts from one to five")
     public void loginPageTest() throws InterruptedException {
-        new LoginPage(driver).loginPage();
+        new LoginPage(driver).countOneToFive();
     }
 
-    @Test(priority=2, description="Launches the test 2")
+    @Test(priority=2, description="Reads the title")
     public void loginPage2Test() throws InterruptedException {
-        new LoginPage(driver).loginPage2();
+        new LoginPage(driver).readTitle();
+    }
+
+    @Test(priority=3, description="Counts from six to teb")
+    public void loginPage3Test() throws InterruptedException {
+        new LoginPage(driver).countsSixToTen();
     }
 
 }

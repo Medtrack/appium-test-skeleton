@@ -2,6 +2,7 @@ package pages;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -28,21 +29,8 @@ public class LoginPage extends BasePage {
         webdriver = (AppiumDriver<WebElement>) driver;
     }
 
-    public LoginPage loginPage() throws InterruptedException {
-        //String permissionButtonId = "com.android.packageinstaller:id/permission_allow_button";
-        //MobileElement waiter = (MobileElement) new WebDriverWait(webdriver, 30).until( ExpectedConditions.presenceOfElementLocated(By.id(permissionButtonId) ) );
-        //System.out.println("wating for permissions");
+    public LoginPage countOneToFive() throws InterruptedException {
         try {
-            /*Set<String> contextNames = webdriver.getContextHandles();
-            System.out.println(contextNames);
-            System.out.println("-->" + TestSetup.Contexts.NATIVE + " "+ TestSetup.Contexts.WEBVIEW);
-            System.out.println("packagestr " + TestSetup.Contexts.WEBVIEW);
-            webdriver.context(TestSetup.Contexts.WEBVIEW);
-            System.out.println("switched to " + TestSetup.Contexts.WEBVIEW);
-            WebElement loginButton = webdriver.findElement(By.id("deviceready"));
-            System.out.println("button text: " + loginButton.getText() );
-            Assert.assertEquals(loginButton.getText(), "DEVICE IS READY");*/
-
             int i = 0;
             while (i < 5){
                 Thread.sleep(1000);
@@ -58,21 +46,25 @@ public class LoginPage extends BasePage {
         return new LoginPage(driver);
     }
 
-    public LoginPage loginPage2() throws InterruptedException {
-        //String permissionButtonId = "com.android.packageinstaller:id/permission_allow_button";
-        //MobileElement waiter = (MobileElement) new WebDriverWait(webdriver, 30).until( ExpectedConditions.presenceOfElementLocated(By.id(permissionButtonId) ) );
-        //System.out.println("wating for permissions");
+    public LoginPage readTitle() throws InterruptedException {
         try {
-            /*Set<String> contextNames = webdriver.getContextHandles();
+            Set<String> contextNames = webdriver.getContextHandles();
             System.out.println(contextNames);
             System.out.println("-->" + TestSetup.Contexts.NATIVE + " "+ TestSetup.Contexts.WEBVIEW);
             System.out.println("packagestr " + TestSetup.Contexts.WEBVIEW);
             webdriver.context(TestSetup.Contexts.WEBVIEW);
             System.out.println("switched to " + TestSetup.Contexts.WEBVIEW);
-            WebElement loginButton = webdriver.findElement(By.id("deviceready"));
+            WebElement loginButton = webdriver.findElement(By.id("home_title"));
             System.out.println("button text: " + loginButton.getText() );
-            Assert.assertEquals(loginButton.getText(), "DEVICE IS READY");*/
+            Assert.assertEquals(loginButton.getText(), "Demo Appium test!");
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new LoginPage(driver);
+    }
 
+    public LoginPage countsSixToTen() throws InterruptedException {
+        try {
             int i = 5;
             while (i < 10){
                 Thread.sleep(1000);
@@ -80,8 +72,8 @@ public class LoginPage extends BasePage {
                 System.out.println("waiting " + i);
             }
 
-            String a = "DEVICE IS READY";
-            Assert.assertEquals(a, "DEVICE IS READY");
+            boolean a = true;
+            Assert.assertEquals(i, 10);
         }catch (Exception ex){
             ex.printStackTrace();
         }
