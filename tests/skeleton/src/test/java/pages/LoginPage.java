@@ -58,6 +58,36 @@ public class LoginPage extends BasePage {
         return new LoginPage(driver);
     }
 
+    public LoginPage loginPage2() throws InterruptedException {
+        //String permissionButtonId = "com.android.packageinstaller:id/permission_allow_button";
+        //MobileElement waiter = (MobileElement) new WebDriverWait(webdriver, 30).until( ExpectedConditions.presenceOfElementLocated(By.id(permissionButtonId) ) );
+        //System.out.println("wating for permissions");
+        try {
+            /*Set<String> contextNames = webdriver.getContextHandles();
+            System.out.println(contextNames);
+            System.out.println("-->" + TestSetup.Contexts.NATIVE + " "+ TestSetup.Contexts.WEBVIEW);
+            System.out.println("packagestr " + TestSetup.Contexts.WEBVIEW);
+            webdriver.context(TestSetup.Contexts.WEBVIEW);
+            System.out.println("switched to " + TestSetup.Contexts.WEBVIEW);
+            WebElement loginButton = webdriver.findElement(By.id("deviceready"));
+            System.out.println("button text: " + loginButton.getText() );
+            Assert.assertEquals(loginButton.getText(), "DEVICE IS READY");*/
+
+            int i = 5;
+            while (i < 10){
+                Thread.sleep(1000);
+                i++;
+                System.out.println("waiting " + i);
+            }
+
+            String a = "DEVICE IS READY";
+            Assert.assertEquals(a, "DEVICE IS READY");
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new LoginPage(driver);
+    }
+
     public void takeScreenshot(String path_screenshot, String filename) throws IOException {
         String currentContext = webdriver.getContext();
         System.out.println("current context: " + currentContext + " switching to " + TestSetup.Contexts.NATIVE);

@@ -6,8 +6,8 @@
       <class name="scenarios.AppiumTest">
         <methods>
           <include name="tearDown"/>
-          <include name="loginPageTest"/>
           <include name="setUp"/>
+          <include name="loginPage2Test"/>
         </methods>
       </class> <!-- scenarios.AppiumTest -->
     </classes>

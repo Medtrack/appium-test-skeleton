@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="TestSuite" time="5.027" errors="0" skipped="0">
+<testsuite tests="2" failures="1" name="TestSuite" time="10.039" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_65.jdk/Contents/Home/jre/lib"/>
@@ -62,5 +62,23 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="scenarios.AppiumTest" name="loginPageTest" time="5.027"/>
+  <testcase classname="scenarios.AppiumTest" name="loginPageTest" time="5.025"/>
+  <testcase classname="scenarios.AppiumTest" name="loginPage2Test" time="5.014">
+    <failure message="expected [DEVICE IS READY] but found [DEVICE IS READYs]" type="java.lang.AssertionError">java.lang.AssertionError: expected [DEVICE IS READY] but found [DEVICE IS READYs]
+	at org.testng.Assert.fail(Assert.java:96)
+	at org.testng.Assert.failNotEquals(Assert.java:776)
+	at org.testng.Assert.assertEqualsImpl(Assert.java:137)
+	at org.testng.Assert.assertEquals(Assert.java:118)
+	at org.testng.Assert.assertEquals(Assert.java:453)
+	at org.testng.Assert.assertEquals(Assert.java:463)
+	at pages.LoginPage.loginPage2(LoginPage.java:84)
+	at scenarios.AppiumTest.loginPage2Test(AppiumTest.java:29)
+</failure>
+    <system-out>waiting 6
+waiting 7
+waiting 8
+waiting 9
+waiting 10
+</system-out>
+  </testcase>
 </testsuite>
