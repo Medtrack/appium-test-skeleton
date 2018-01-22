@@ -17,7 +17,7 @@ import java.util.Set;
  * Created by medtrack on 21/12/17.
  */
 public class TestSetup {
-    protected AndroidDriver driver;
+    protected AndroidDriver androidDriver;
     protected IOSDriver iosdriver;
     protected AppiumDriver<WebElement> webdriver;
     protected Map<String, String> contexts;
@@ -34,24 +34,44 @@ public class TestSetup {
         capabilities.setCapability("automationName", "UiAutomator2");
         //other caps
         capabilities.setCapability("app", app.getAbsolutePath());
-        driver =  new AndroidDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-        webdriver = (AppiumDriver<WebElement>) driver;
+        androidDriver =  new AndroidDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        webdriver = (AppiumDriver<WebElement>) androidDriver;
     }
+
+    /*iphone_6: {
+            browserName: '',
+            'appium-version': '1.6',
+            platformName: 'iOS',
+            platformVersion: '10.3.2',
+            deviceName: 'iPhone 6',
+            automationName: "XCUITest",
+            xcodeOrgId: 'HNE5T79DFE',//NAFS4KAQKJ
+            xcodeSigningId:"iPhone Developer",
+            startIWDP: true,
+            udid: '180ab6275a376cccae21f7e25c59c43dd8c068a1',
+            app: "/Users/medtrack/Desktop/testlogin/MedFit/utilities/mobile-app/apps/ios/MedFit.ipa"
+            //app: "/Users/medtrack/Desktop/testlogin/MedFit/utilities/mobile-app/apps/ios/dev/MedFit.ipa",
+            //fullReset: false,
+            //noReset: true
+        },*/
+
     protected void prepareIosForAppium() throws MalformedURLException {
         File appDir = new File("apps");
         File app = new File(appDir, "hola-mundo.ipa");
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        /*capabilities.setCapability("device","Android");
-        capabilities.setCapability("appActivity",".MainActivity");
+        capabilities.setCapability("device","iOS");
         capabilities.setCapability("deviceName","dummy");
-        capabilities.setCapability("platformName","Android");
-        capabilities.setCapability("appPackage","com.hola.mundo");
-        capabilities.setCapability("fullReset", true);
-        capabilities.setCapability("automationName", "UiAutomator2");*/
-        //other caps
+        capabilities.setCapability("xcodeOrgId", "HNE5T79DFE");
+        capabilities.setCapability("xcodeSigningId", "iPhone Developer");
+        capabilities.setCapability("autoWebview", true);
+        capabilities.setCapability("startIWDP", true);
+        capabilities.setCapability("platformName","iOS");
+        capabilities.setCapability("automationName","XCUITest");
+        capabilities.setCapability("udid","180ab6275a376cccae21f7e25c59c43dd8c068a1");
         capabilities.setCapability("app", app.getAbsolutePath());
-        iosdriver =  new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-        //webdriver = (AppiumDriver<WebElement>) driver;
+        iosdriver =  new IOSDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        webdriver = (AppiumDriver<WebElement>) iosdriver;
+        System.out.println("ios prepare" +webdriver.toString() + " "+iosdriver.toString());
     }
 
 
