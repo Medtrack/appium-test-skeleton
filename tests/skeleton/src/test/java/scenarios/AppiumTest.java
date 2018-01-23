@@ -5,28 +5,38 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 
-import java.util.Map;
+import java.net.MalformedURLException;
 
 public class AppiumTest extends TestSetup {
-    final String ENVIRONMENT1 = ( System.getProperty("os.name").toLowerCase().indexOf("mac") != -1 ) ? "IOS" : "ANDROID";
-    //final String ENVIRONMENT = ( System.getProperty("os.name").toLowerCase().indexOf("mac") != -1 ) ? "IOS" : "ANDROID";
-    final String ENVIRONMENT = "IOS";
+   // final String ENVIRONMENT = ( System.getProperty("os.name").toLowerCase().indexOf("mac") != -1 ) ? "IOS" : "ANDROID";
+   public String platform = "android";
 
     @BeforeClass
     public void setUp() throws Exception {
-        String osName = System.getProperty("os.name");
-        System.out.println("OS NAME: "+ ENVIRONMENT + " " + ENVIRONMENT1 );
-        if (ENVIRONMENT != "IOS"){
+        //String osName = System.geqtProperty("os.name");
+        //platform = isiOS() ? "ios" : "android";
+        //System.out.println("OS NAME: "+ platform + " " + platform + " " + osName );
+        //printProperties();
+        //printEnvVars();
+
+        /*if (platform != "ios"){
             prepareAndroidForAppium();
         } else {
             prepareIosForAppium();
+        }*/
+        System.out.println("Trying to execute simple Appium Driver" );
+        try {
+            prepareDriver();
+        }catch (MalformedURLException m){
+            System.out.println(m.getMessage());
         }
+
         setUpContexts();
     }
 
     @AfterClass
     public void tearDown() throws Exception {
-        //driver.quit();
+        //dri ver.quit();
         driverQuit();
     }
 
@@ -35,6 +45,7 @@ public class AppiumTest extends TestSetup {
         new LoginPage(webdriver).countOneToFive();
     }
 
+/*
     @Test(priority=2, description="Reads the title")
     public void loginPage2Test() throws InterruptedException {
         new LoginPage(webdriver).readTitle();
@@ -44,4 +55,5 @@ public class AppiumTest extends TestSetup {
     public void loginPage3Test() throws InterruptedException {
         new LoginPage(webdriver).countsSixToTen();
     }
+    */
 }

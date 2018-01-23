@@ -3,15 +3,16 @@ package scenarios;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by medtrack on 21/12/17.
@@ -21,6 +22,41 @@ public class TestSetup {
     protected IOSDriver iosdriver;
     protected AppiumDriver<WebElement> webdriver;
     protected Map<String, String> contexts;
+
+    protected void printCapabilities(Capabilities cap){
+        Map<String, ?> map =  cap.asMap();
+        System.out.println("--------- PRINTING DEFAULT CAPABILITIES ---------");
+        for (String envName : map.keySet()) {
+            System.out.format("%s=%s%n", envName, map.get(envName));
+        }
+        System.out.println("-----------------------------------------------");
+    }
+
+    protected Capabilities getDefaultCapabilities() throws MalformedURLException {
+        AppiumDriver<WebElement> defaultDriver;
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        try {
+            //defaultDriver = new AppiumDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+            //return defaultDriver.getCapabilities();
+            return capabilities;
+        } catch (Exception ex){
+            throw  new MalformedURLException(ex.getMessage());
+        }
+    }
+
+    protected boolean isiOS(){
+        try {
+            Capabilities defaultCapabilities = getDefaultCapabilities();
+            printCapabilities(defaultCapabilities);
+            String platform = defaultCapabilities.getCapability("platformName").toString();
+            String app =  defaultCapabilities.getCapability("app").toString().toLowerCase();
+            return app.indexOf(".ipa") != -1 || platform.indexOf("mac") != -1 || platform.indexOf("ios") != -1;
+        } catch (MalformedURLException m){
+            return false;
+        }
+
+    }
+
     protected void prepareAndroidForAppium() throws MalformedURLException {
         File appDir = new File("apps");
         File app = new File(appDir, "hola-mundo.apk");
@@ -35,6 +71,7 @@ public class TestSetup {
         //other caps
         capabilities.setCapability("app", app.getAbsolutePath());
         androidDriver =  new AndroidDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        //AppiumDriver androidDriver = new AppiumDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         webdriver = (AppiumDriver<WebElement>) androidDriver;
     }
 
@@ -70,11 +107,59 @@ public class TestSetup {
         capabilities.setCapability("udid","180ab6275a376cccae21f7e25c59c43dd8c068a1");
         capabilities.setCapability("app", app.getAbsolutePath());
         iosdriver =  new IOSDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        //AppiumDriver iosdriver = new AppiumDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+
         webdriver = (AppiumDriver<WebElement>) iosdriver;
         System.out.println("ios prepare" +webdriver.toString() + " "+iosdriver.toString());
     }
 
+    protected void prepareDriver() throws MalformedURLException {
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        AppiumDriver driver = new AppiumDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        webdriver = driver;
+    }
 
+    protected void printProperties() {
+        System.out.println("--------- PRINTING SYSTEM PROPERTIES ---------");
+        Properties p = System.getProperties();
+        Enumeration keys = p.keys();
+        while (keys.hasMoreElements()) {
+            String key = (String)keys.nextElement();
+            String value = (String)p.get(key);
+            System.out.println(key + ": " + value);
+        }
+        System.out.println("-----------------------------------------------");
+    }
+
+    protected void printEnvVars() {
+        System.out.println("--------- PRINTING ENVIRONMENT VARIABLES ---------");
+        Map<String, String> env = System.getenv();
+        for (String envName : env.keySet()) {
+            System.out.format("%s=%s%n", envName, env.get(envName));
+        }
+        System.out.println("-----------------------------------------------");
+    }
+
+    protected void executeCommand(String command) {
+        System.out.println("--------- EXECUTING "+command+" ---------");
+        StringBuffer output = new StringBuffer();
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec(command);
+            p.waitFor();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = "";
+            while ((line = reader.readLine())!= null) {
+                output.append(line + "\n");
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+            output.append(e.getMessage());
+        }
+        System.out.println(output);
+        System.out.println("-----------------------------------------------");
+
+    }
 
     protected void setUpContexts(){
         try {
