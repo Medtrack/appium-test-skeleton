@@ -3,9 +3,11 @@ package scenarios;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
+import org.apache.commons.lang3.ArrayUtils;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import pages.BaseTests;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,6 +24,21 @@ public class TestSetup {
     protected IOSDriver iosdriver;
     protected AppiumDriver<WebElement> webdriver;
     protected Map<String, String> contexts;
+    protected BaseTests baseTests;
+
+
+    /**
+     * We need to hardcode users of machines where we execute tests locally.
+     * TODO: find a better way to check where we are executing the test
+     * @param user
+     * @return
+     */
+    protected boolean isUserInLocalTest(String user){
+        String[] users = {
+                "medtrack"
+        };
+        return ArrayUtils.contains( users, user );
+    }
 
     protected void printCapabilities(Capabilities cap){
         Map<String, ?> map =  cap.asMap();
@@ -73,6 +90,7 @@ public class TestSetup {
         androidDriver =  new AndroidDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         //AppiumDriver androidDriver = new AppiumDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         webdriver = (AppiumDriver<WebElement>) androidDriver;
+        baseTests = new BaseTests(webdriver);
     }
 
     /*iphone_6: {
@@ -111,12 +129,14 @@ public class TestSetup {
 
         webdriver = (AppiumDriver<WebElement>) iosdriver;
         System.out.println("ios prepare" +webdriver.toString() + " "+iosdriver.toString());
+        baseTests = new BaseTests(webdriver);
     }
 
     protected void prepareDriver() throws MalformedURLException {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         AppiumDriver driver = new AppiumDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         webdriver = driver;
+        baseTests = new BaseTests(webdriver);
     }
 
     protected void printProperties() {
@@ -180,6 +200,13 @@ public class TestSetup {
         }catch (Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    protected BaseTests getBaseTests(){
+        /*if(baseTests == null){
+            baseTests = new BaseTests(webdriver);
+        }*/
+        return baseTests;
     }
 
     protected void driverQuit(){
