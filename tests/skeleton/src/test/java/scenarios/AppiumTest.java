@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 public class AppiumTest extends TestSetup {
    // final String ENVIRONMENT = ( System.getProperty("os.name").toLowerCase().indexOf("mac") != -1 ) ? "IOS" : "ANDROID";
    public String platform = "android";
+    private BaseTests mainTest;
 
     @BeforeClass
     public void setUp() throws Exception {
@@ -19,10 +20,10 @@ public class AppiumTest extends TestSetup {
         System.out.println("OS NAME: "+ osName + " userName " + userName );
         printProperties();
         printEnvVars();
-        if(isUserInLocalTest(userName)){
+        boolean localTest = isUserInLocalTest(userName);
+        if(localTest){
             platform = ( osName.toLowerCase().indexOf("mac") != -1 ) ? "ios" : "android";
             System.out.println("Local test, choosing driver for platform " + platform );
-
             if (platform != "ios"){
                 prepareAndroidForAppium();
             } else {
@@ -38,7 +39,7 @@ public class AppiumTest extends TestSetup {
         }
 
         /**/
-
+        mainTest = new BaseTests(webdriver, localTest);
         setUpContexts();
     }
 
@@ -47,19 +48,8 @@ public class AppiumTest extends TestSetup {
         driverQuit();
     }
 
-    @Test(priority=1, description="Counts from one to five")
-    public void loginPageTest() throws InterruptedException {
-        getBaseTests().countOneToFive();
+    @Test(description="browses the page the title")
+    public void baseTest() throws InterruptedException {
+        mainTest.browsePages();
     }
-
-    @Test(priority=2, description="Reads the title", dependsOnMethods="loginPageTest")
-    public void loginPage2Test() throws InterruptedException {
-        getBaseTests().readTitle();
-    }
-
-    @Test(priority=3, description="Counts from six to ten", dependsOnMethods="loginPage2Test")
-    public void loginPage3Test() throws InterruptedException {
-        getBaseTests().countsSixToTen();
-    }
-
 }

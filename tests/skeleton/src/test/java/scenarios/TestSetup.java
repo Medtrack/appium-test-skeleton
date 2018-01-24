@@ -124,6 +124,7 @@ public class TestSetup {
         capabilities.setCapability("automationName","XCUITest");
         capabilities.setCapability("udid","180ab6275a376cccae21f7e25c59c43dd8c068a1");
         capabilities.setCapability("app", app.getAbsolutePath());
+        capabilities.setCapability("fullReset", true);
         iosdriver =  new IOSDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         //AppiumDriver iosdriver = new AppiumDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 
@@ -134,6 +135,7 @@ public class TestSetup {
 
     protected void prepareDriver() throws MalformedURLException {
         DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("fullReset", true);
         AppiumDriver driver = new AppiumDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         webdriver = driver;
         baseTests = new BaseTests(webdriver);
@@ -203,14 +205,14 @@ public class TestSetup {
     }
 
     protected BaseTests getBaseTests(){
-        /*if(baseTests == null){
+        if(baseTests == null){
             baseTests = new BaseTests(webdriver);
-        }*/
+        }
         return baseTests;
     }
 
     protected void driverQuit(){
-        //driver.quit();
+        webdriver.removeApp("me.tararea.hola_mundo");
         System.out.println("Quitting driver");
     }
 
