@@ -1,5 +1,6 @@
 scenarios/TestSetup.class
 scenarios/AppiumTest.class
+scenarios/TestSetup$Contexts$Platform.class
 scenarios/TestSetup$Contexts.class
 pages/BasePage.class
 pages/BaseTests.class

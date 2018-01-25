@@ -60,6 +60,7 @@ public class BaseTests extends BasePage {
 
     public void browsePages() throws InterruptedException {
         try {
+            System.out.println("browsePages platform " + TestSetup.Contexts.PLATFORM);
             Set<String> contextNames = webdriver.getContextHandles();
             System.out.println(contextNames);
             System.out.println("-->" + TestSetup.Contexts.NATIVE + " "+ TestSetup.Contexts.WEBVIEW);

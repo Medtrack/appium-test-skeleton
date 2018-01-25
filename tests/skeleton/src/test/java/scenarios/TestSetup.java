@@ -88,27 +88,9 @@ public class TestSetup {
         //other caps
         capabilities.setCapability("app", app.getAbsolutePath());
         androidDriver =  new AndroidDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-        //AppiumDriver androidDriver = new AppiumDriver<WebElement>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         webdriver = (AppiumDriver<WebElement>) androidDriver;
         baseTests = new BaseTests(webdriver);
     }
-
-    /*iphone_6: {
-            browserName: '',
-            'appium-version': '1.6',
-            platformName: 'iOS',
-            platformVersion: '10.3.2',
-            deviceName: 'iPhone 6',
-            automationName: "XCUITest",
-            xcodeOrgId: 'HNE5T79DFE',//NAFS4KAQKJ
-            xcodeSigningId:"iPhone Developer",
-            startIWDP: true,
-            udid: '180ab6275a376cccae21f7e25c59c43dd8c068a1',
-            app: "/Users/medtrack/Desktop/testlogin/MedFit/utilities/mobile-app/apps/ios/MedFit.ipa"
-            //app: "/Users/medtrack/Desktop/testlogin/MedFit/utilities/mobile-app/apps/ios/dev/MedFit.ipa",
-            //fullReset: false,
-            //noReset: true
-        },*/
 
     protected void prepareIosForAppium() throws MalformedURLException {
         File appDir = new File("apps");
@@ -186,6 +168,12 @@ public class TestSetup {
     protected void setUpContexts(){
         try {
             Set<String> contextNames = webdriver.getContextHandles();
+            String appName = webdriver.getCapabilities().getCapability("app").toString();
+            if(appName.indexOf(".ipa") != -1){
+                Contexts.PLATFORM = Contexts.Platform.IOS;
+            } else {
+                Contexts.PLATFORM = Contexts.Platform.ANDROID;
+            }
             contexts = new HashMap();
             for (String contextName : contextNames) {
                 System.out.println(contextName);
@@ -217,6 +205,10 @@ public class TestSetup {
     }
 
     public static class Contexts {
+        public enum Platform {
+            ANDROID, IOS
+        }
+        public static Platform PLATFORM;
         public static String WEBVIEW = "";
         public static String NATIVE = "";
     }

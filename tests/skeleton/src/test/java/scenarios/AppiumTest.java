@@ -9,8 +9,8 @@ import pages.BaseTests;
 import java.net.MalformedURLException;
 
 public class AppiumTest extends TestSetup {
-   // final String ENVIRONMENT = ( System.getProperty("os.name").toLowerCase().indexOf("mac") != -1 ) ? "IOS" : "ANDROID";
-   public String platform = "android";
+   //final String ENVIRONMENT = ( System.getProperty("os.name").toLowerCase().indexOf("mac") != -1 ) ? "IOS" : "ANDROID";
+    public String platform = "android";
     private BaseTests mainTest;
 
     @BeforeClass
@@ -22,7 +22,7 @@ public class AppiumTest extends TestSetup {
         printEnvVars();
         boolean localTest = isUserInLocalTest(userName);
         if(localTest){
-            //platform = ( osName.toLowerCase().indexOf("mac") != -1 ) ? "ios" : "android";
+            String platform = ( osName.toLowerCase().indexOf("mac") != -1 ) ? "ios" : "android";
             System.out.println("Local test, choosing driver for platform " + platform );
             if (platform != "ios"){
                 prepareAndroidForAppium();
@@ -30,7 +30,7 @@ public class AppiumTest extends TestSetup {
                 prepareIosForAppium();
             }
         } else {
-            System.out.println("Trying to execute simple Appium Driver" );
+            System.out.println( "Trying to execute simple Appium Driver" );
             try {
                 prepareDriver();
             }catch (MalformedURLException m){
@@ -40,6 +40,7 @@ public class AppiumTest extends TestSetup {
 
         /**/
         mainTest = new BaseTests(webdriver, localTest);
+        //printCapabilities(webdriver.getCapabilities());
         setUpContexts();
     }
 
