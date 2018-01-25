@@ -22,7 +22,7 @@ public class AppiumTest extends TestSetup {
         printEnvVars();
         boolean localTest = isUserInLocalTest(userName);
         if(localTest){
-            platform = ( osName.toLowerCase().indexOf("mac") != -1 ) ? "ios" : "android";
+            //platform = ( osName.toLowerCase().indexOf("mac") != -1 ) ? "ios" : "android";
             System.out.println("Local test, choosing driver for platform " + platform );
             if (platform != "ios"){
                 prepareAndroidForAppium();

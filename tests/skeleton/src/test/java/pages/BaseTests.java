@@ -26,10 +26,12 @@ public class BaseTests extends BasePage {
     private String titleText = "Initial title text ";
     private int i = 0;
     private boolean isLocalTest  = true;
+    public String currentContext;
 
     public BaseTests(AppiumDriver driver) {
         super(driver);
         webdriver = (AppiumDriver<WebElement>) driver;
+        currentContext = TestSetup.Contexts.NATIVE;
     }
 
     public BaseTests(AppiumDriver driver, boolean inLocal) {
@@ -63,6 +65,7 @@ public class BaseTests extends BasePage {
             System.out.println("-->" + TestSetup.Contexts.NATIVE + " "+ TestSetup.Contexts.WEBVIEW);
             System.out.println("packagestr " + TestSetup.Contexts.WEBVIEW);
             webdriver.context(TestSetup.Contexts.WEBVIEW);
+            currentContext = TestSetup.Contexts.NATIVE;
             System.out.println("switched to " + TestSetup.Contexts.WEBVIEW);
 
             //Get text of home page
@@ -148,11 +151,15 @@ public class BaseTests extends BasePage {
     }
 
     private boolean takeScreenshotAws(final String name) {
+        String currentContext = webdriver.getContext();
         String screenshotDirectory = System.getProperty("appium.screenshots.dir", System.getProperty("java.io.tmpdir", ""));
+        webdriver.context(TestSetup.Contexts.NATIVE);
         File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         System.out.println("before rename " + screenshot.getAbsolutePath());
         boolean rname = screenshot.renameTo(new File(screenshotDirectory, String.format("%s.png", name)));
         System.out.println("after rename " + screenshot.getAbsolutePath());
+        webdriver.context(currentContext);
+        System.out.println("current context: " + webdriver.getContext());
         return rname;
     }
 }
